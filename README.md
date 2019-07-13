@@ -4,7 +4,7 @@
 -您也给你导出您所修改的火车票信息成为一张火车票图片
 -这个系统能够快速帮您处理火车票
 
-$\color{red}{警告:请勿用于商业 和 非法用途}$
+-警告:请勿用于商业 和 非法用途}
 -别想着能拿它生成的火车票当真的火车票使用
 -被警察找去喝茶 作者不负责哦
 
@@ -19,7 +19,7 @@ $\color{red}{警告:请勿用于商业 和 非法用途}$
 - This system can help you deal with train tickets quickly.
 
 
-$\color{red}{Warning: Do not use for commercial or illegal purposes}$
+-Warning: Do not use for commercial or illegal purposes
 
 
 - Don't think about using the train tickets it Spawn seriously.
