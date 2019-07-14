@@ -25,7 +25,7 @@ namespace TicketsBase
         {
             return src.Clone(range, PixelFormat.DontCare);
         }
-        private static Image byteToImage(byte[] myByte)
+        public static Image byteToImage(byte[] myByte)
         {
             MemoryStream ms = new MemoryStream(myByte);
             Image _Image = Image.FromStream(ms);
@@ -154,7 +154,7 @@ namespace TicketsBase
         }
         static void AddInfoToImage(string Info, Graphics Image_graphics, float fontSize, float rectX, float rectY, Brush brush, float Scalex, float Scaley)
         {
-            if (Info == null)
+            if (String.IsNullOrWhiteSpace(Info))
                 return;
             //float textWidth = Info.Length * fontSize;
             Font font = new Font("黑体", fontSize,FontStyle.Regular);
@@ -587,30 +587,70 @@ namespace TicketsBase
             //字体矩形位置 ：
             //x = 图片的长度的中心位置 - 字体长度的一半 - 字行距
             //y = 图片的高度的中心位置 - 字体大小的一半 - 偏移（去掉偏移，是居中位置）
-            var year = tickInfo.date[0].ToString() + tickInfo.date[1].ToString() + tickInfo.date[2].ToString() + tickInfo.date[3].ToString();//年
-            var moth = tickInfo.date[5].ToString() + tickInfo.date[6].ToString();//月
-            var day = tickInfo.date[8].ToString() + tickInfo.date[9].ToString();//日
-            var fickrates = tickInfo.ticket_rates.Replace("￥", string.Empty);
-            var Rates = fickrates.Replace("元", string.Empty);
-            var Start_Station = tickInfo.starting_station.Remove(tickInfo.starting_station.Length - 1);
-            var destination_Station = tickInfo.destination_station.Remove(tickInfo.destination_station.Length - 1);
+            string year = null;
+            if (tickInfo.date.Length >= 4)
+            {
+                year = tickInfo.date[0].ToString() + tickInfo.date[1].ToString() + tickInfo.date[2].ToString() + tickInfo.date[3].ToString();//年
+            }
+
+            string moth=null;
+            if (tickInfo.date.Length >= 7)
+            {
+                moth = tickInfo.date[5].ToString() + tickInfo.date[6].ToString();//月
+            }
+
+            string day=null;
+            if (tickInfo.date.Length >= 10)
+            {
+                day = tickInfo.date[8].ToString() + tickInfo.date[9].ToString();//日
+            }
+            string fickrates = null;
+            if (tickInfo.ticket_rates.Contains("￥"))
+            {
+                fickrates = tickInfo.ticket_rates.Replace("￥", string.Empty);
+            }
+
+            string Rates = null;
+            if (fickrates!=null&&fickrates.Contains("元"))
+            {
+                Rates = fickrates.Replace("元", string.Empty);
+            }
+
+            string Start_Station=null;
+            string Start_Stationpinyin=null;
+            if (!String.IsNullOrWhiteSpace(tickInfo.starting_station))
+            {
+                Start_Station = tickInfo.starting_station.Remove(tickInfo.starting_station.Length - 1);
+                Start_Stationpinyin = PingYinHelper.GetPinyin(tickInfo.starting_station.Remove(tickInfo.starting_station.Length - 1));
+            }
+  
+
+            string destination_Station=null;
+            string Des_Stationpinyin = null;
+            if (!String.IsNullOrWhiteSpace(tickInfo.destination_station))
+            {
+                destination_Station = tickInfo.destination_station.Remove(tickInfo.destination_station.Length - 1);
+                Des_Stationpinyin = PingYinHelper.GetPinyin(tickInfo.destination_station.Remove(tickInfo.destination_station.Length - 1));
+            }
+
+
             string S_station = null;
             string D_station = null;
-            var Start_Stationpinyin = PingYinHelper.GetPinyin(tickInfo.starting_station.Remove(tickInfo.starting_station.Length - 1));
-            var Des_Stationpinyin = PingYinHelper.GetPinyin(tickInfo.destination_station.Remove(tickInfo.destination_station.Length - 1));
+
+            
             int S_pinyinaddX = 0;
             int D_pinyinaddX = 0;
             int max_pinyinmove_length = 9;
             bool D_ISLongPinyin = false;
             bool S_ISLongPinyin = false;
-            if (Start_Stationpinyin.Length <= max_pinyinmove_length)
+            if (Start_Stationpinyin!=null&&Start_Stationpinyin.Length <= max_pinyinmove_length)
             {
                 S_pinyinaddX = 42 - Start_Stationpinyin.Length;
             }
             else {
                 S_ISLongPinyin = true;
             }
-            if (Des_Stationpinyin.Length <= max_pinyinmove_length)
+            if (Des_Stationpinyin!=null&&Des_Stationpinyin.Length <= max_pinyinmove_length)
             {
                 D_pinyinaddX = 42 - Des_Stationpinyin.Length;
             }
@@ -619,7 +659,7 @@ namespace TicketsBase
                 D_ISLongPinyin = true;
             }
 
-            if (Start_Station.Length <= 2)
+            if (Start_Station!=null&&Start_Station.Length <= 2)
             {
                 S_station += Start_Station[0];
                 S_station += "  ";
@@ -630,7 +670,7 @@ namespace TicketsBase
                 S_station = Start_Station;
 
             }
-            if (destination_Station.Length <= 2)
+            if (destination_Station!=null&&destination_Station.Length <= 2)
             {
                 D_station += destination_Station[0];
                 D_station += "  ";
@@ -639,7 +679,6 @@ namespace TicketsBase
             else
             {
                 D_station = destination_Station;
-
             }
             string IDinfo = null;
             char addidinfo;
@@ -661,29 +700,48 @@ namespace TicketsBase
             AddInfoToImage(tickInfo.ticket_num, g, 40, 50, 35 - reduce, RedBrush, FontStyle.Bold);
             AddInfoToImage(tickInfo.jianpiao, g, 32, 680, 15, blackBrush);
             AddInfoToImage(S_station, g, 40, 110, 80, blackBrush);
-            if (S_ISLongPinyin)
+            if (Start_Stationpinyin != null)
             {
-                AddInfoToImage(Start_Stationpinyin, g, 30, 110+ Start_Stationpinyin.Length + S_pinyinaddX, 130, blackBrush, 0.8f,1);
-            }
-            else
-            {
-                AddInfoToImage(Start_Stationpinyin, g, 30, 110+Start_Stationpinyin.Length + S_pinyinaddX, 130, blackBrush);
+                if (S_ISLongPinyin)
+                {
+                    AddInfoToImage(Start_Stationpinyin, g, 30, 110 + Start_Stationpinyin.Length + S_pinyinaddX, 130, blackBrush, 0.8f, 1);
+                }
+                else
+                {
+                    AddInfoToImage(Start_Stationpinyin, g, 30, 110 + Start_Stationpinyin.Length + S_pinyinaddX, 130, blackBrush);
+                }
             }
             AddInfoToImage("站", g, 30, 280, 85, blackBrush);
             AddInfoToImage(D_station, g, 40, 600, 75, blackBrush);
-            if (D_ISLongPinyin)
+            if (Des_Stationpinyin != null)
             {
-                AddInfoToImage(Des_Stationpinyin, g, 30, 600+Des_Stationpinyin.Length + D_pinyinaddX, 130, blackBrush,0.8f,1);
+                if (D_ISLongPinyin)
+                {
+                    AddInfoToImage(Des_Stationpinyin, g, 30, 600 + Des_Stationpinyin.Length + D_pinyinaddX, 130, blackBrush, 0.8f, 1);
+                }
+                else
+                {
+                    AddInfoToImage(Des_Stationpinyin, g, 30, 600 + Des_Stationpinyin.Length + D_pinyinaddX, 130, blackBrush);
+                }
             }
-            else
-            {
-                AddInfoToImage(Des_Stationpinyin, g, 30, 600+ Des_Stationpinyin.Length + D_pinyinaddX, 130, blackBrush);
-            }
+
 
             AddInfoToImage("站", g, 30, 770, 80, blackBrush);
             ////////////////////////////////////////////////
 
-            AddInfoToImage(tickInfo.train_num, g, 40, "方正楷体", 400 - tickInfo.train_num.Length-10, 80, blackBrush);
+            if (tickInfo.train_num.Length <4)
+            {
+                AddInfoToImage(tickInfo.train_num, g, 40, "方正楷体", 400 + 20 - tickInfo.train_num.Length, 80, blackBrush);
+            }
+            else if(tickInfo.train_num.Length == 4)
+            {
+                AddInfoToImage(tickInfo.train_num, g, 40, "方正楷体", 405, 80, blackBrush);
+            }
+              else if(tickInfo.train_num.Length == 5)
+            {
+                AddInfoToImage(tickInfo.train_num, g, 40, "方正楷体", 388, 80, blackBrush);
+            }
+
             /////////////////////////////////////////////////////////////////
             AddInfoToImage(tickInfo.train_che, g, 32, 587, 183, blackBrush);
             AddInfoToImage("车", g, 20, 637, 192, blackBrush);
@@ -704,7 +762,7 @@ namespace TicketsBase
             AddInfoToImage("￥", g, 31, 80, 240, blackBrush);
             AddInfoToImage(Rates, g, 32, 115, 240, blackBrush);
             int yuan_X = 0;
-            if (Rates.Length > 4)
+            if (Rates!=null&&Rates.Length > 4)
             {
                 yuan_X += 30;
             }
@@ -716,7 +774,7 @@ namespace TicketsBase
             AddInfoToImage(tickInfo.bottomid, g, 20f, 90f, 560f, blackBrush, FontStyle.Regular, 1.111f, 1.6f);
             AddInfoToImage(Start_Station, g, 27f, 440f, 560f, blackBrush, FontStyle.Bold);
             int Shou_X = 0;
-            if (Start_Station.Length <= 2)
+            if (Start_Station != null&& Start_Station.Length <= 2)
             {
                 Shou_X -= 38;
             }

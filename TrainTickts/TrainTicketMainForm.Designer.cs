@@ -1,4 +1,7 @@
-﻿namespace TrainTickets
+﻿using System;
+using System.Windows.Forms;
+
+namespace TrainTickets
 {
     partial class TrainTicketMainForm
     {
@@ -31,7 +34,6 @@
             this.components = new System.ComponentModel.Container();
             this.TicketPictureBox = new System.Windows.Forms.PictureBox();
             this.TrainTicketsInfoView = new System.Windows.Forms.ListBox();
-            this.button_InputTickets = new System.Windows.Forms.Button();
             this.text_ticket_num = new System.Windows.Forms.TextBox();
             this.text_starting_station = new System.Windows.Forms.TextBox();
             this.text_train_num = new System.Windows.Forms.TextBox();
@@ -47,17 +49,35 @@
             this.text_hao = new System.Windows.Forms.TextBox();
             this.text_jianpiao = new System.Windows.Forms.TextBox();
             this.button_Save = new System.Windows.Forms.Button();
-            this.Output_TrainTickets = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.button_Setting = new System.Windows.Forms.Button();
-            this.button_About = new System.Windows.Forms.Button();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.新疆ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.火车票ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.导入ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_InputAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.导出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem_OutputAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.清除所有车票ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.清除当前选中车票ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.新建火车票ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.导入ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.导出ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.删除ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.FormOpentimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.TicketPictureBox)).BeginInit();
+            this.menuStrip.SuspendLayout();
+            this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // TicketPictureBox
             // 
             this.TicketPictureBox.InitialImage = null;
-            this.TicketPictureBox.Location = new System.Drawing.Point(476, 12);
+            this.TicketPictureBox.Location = new System.Drawing.Point(493, 45);
             this.TicketPictureBox.Name = "TicketPictureBox";
             this.TicketPictureBox.Size = new System.Drawing.Size(548, 349);
             this.TicketPictureBox.TabIndex = 9;
@@ -65,27 +85,22 @@
             // 
             // TrainTicketsInfoView
             // 
+            this.TrainTicketsInfoView.AllowDrop = true;
+            this.TrainTicketsInfoView.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.TrainTicketsInfoView.FormattingEnabled = true;
-            this.TrainTicketsInfoView.ItemHeight = 15;
-            this.TrainTicketsInfoView.Location = new System.Drawing.Point(12, 12);
+            this.TrainTicketsInfoView.ItemHeight = 25;
+            this.TrainTicketsInfoView.Location = new System.Drawing.Point(12, 45);
             this.TrainTicketsInfoView.Name = "TrainTicketsInfoView";
-            this.TrainTicketsInfoView.Size = new System.Drawing.Size(419, 349);
+            this.TrainTicketsInfoView.Size = new System.Drawing.Size(419, 604);
             this.TrainTicketsInfoView.TabIndex = 0;
             this.TrainTicketsInfoView.SelectedIndexChanged += new System.EventHandler(this.TrainTicketsInfoView_SelectedIndexChanged);
-            // 
-            // button_InputTickets
-            // 
-            this.button_InputTickets.Location = new System.Drawing.Point(104, 377);
-            this.button_InputTickets.Name = "button_InputTickets";
-            this.button_InputTickets.Size = new System.Drawing.Size(225, 74);
-            this.button_InputTickets.TabIndex = 1;
-            this.button_InputTickets.Text = "导入所有原始车票";
-            this.button_InputTickets.UseVisualStyleBackColor = true;
-            this.button_InputTickets.Click += new System.EventHandler(this.Button_InputTickets_Click);
+            this.TrainTicketsInfoView.DragDrop += new System.Windows.Forms.DragEventHandler(this.TrainTicketsInfoView_DragDrop);
+            this.TrainTicketsInfoView.DragEnter += new System.Windows.Forms.DragEventHandler(this.TrainTicketsInfoView_DragEnter);
+            this.TrainTicketsInfoView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TrainTicketsInfoView_MouseDown);
             // 
             // text_ticket_num
             // 
-            this.text_ticket_num.Location = new System.Drawing.Point(453, 382);
+            this.text_ticket_num.Location = new System.Drawing.Point(469, 420);
             this.text_ticket_num.Name = "text_ticket_num";
             this.text_ticket_num.Size = new System.Drawing.Size(181, 25);
             this.text_ticket_num.TabIndex = 14;
@@ -93,7 +108,7 @@
             // 
             // text_starting_station
             // 
-            this.text_starting_station.Location = new System.Drawing.Point(453, 426);
+            this.text_starting_station.Location = new System.Drawing.Point(469, 464);
             this.text_starting_station.Name = "text_starting_station";
             this.text_starting_station.Size = new System.Drawing.Size(181, 25);
             this.text_starting_station.TabIndex = 15;
@@ -101,7 +116,7 @@
             // 
             // text_train_num
             // 
-            this.text_train_num.Location = new System.Drawing.Point(661, 426);
+            this.text_train_num.Location = new System.Drawing.Point(677, 464);
             this.text_train_num.Name = "text_train_num";
             this.text_train_num.Size = new System.Drawing.Size(181, 25);
             this.text_train_num.TabIndex = 16;
@@ -109,7 +124,7 @@
             // 
             // text_destination_station
             // 
-            this.text_destination_station.Location = new System.Drawing.Point(864, 426);
+            this.text_destination_station.Location = new System.Drawing.Point(880, 464);
             this.text_destination_station.Name = "text_destination_station";
             this.text_destination_station.Size = new System.Drawing.Size(181, 25);
             this.text_destination_station.TabIndex = 17;
@@ -117,7 +132,7 @@
             // 
             // text_date
             // 
-            this.text_date.Location = new System.Drawing.Point(453, 472);
+            this.text_date.Location = new System.Drawing.Point(469, 510);
             this.text_date.Name = "text_date";
             this.text_date.Size = new System.Drawing.Size(181, 25);
             this.text_date.TabIndex = 18;
@@ -125,7 +140,7 @@
             // 
             // text_ticket_rates
             // 
-            this.text_ticket_rates.Location = new System.Drawing.Point(453, 515);
+            this.text_ticket_rates.Location = new System.Drawing.Point(469, 553);
             this.text_ticket_rates.Name = "text_ticket_rates";
             this.text_ticket_rates.Size = new System.Drawing.Size(181, 25);
             this.text_ticket_rates.TabIndex = 19;
@@ -133,7 +148,7 @@
             // 
             // text_seat_category
             // 
-            this.text_seat_category.Location = new System.Drawing.Point(864, 515);
+            this.text_seat_category.Location = new System.Drawing.Point(880, 553);
             this.text_seat_category.Name = "text_seat_category";
             this.text_seat_category.Size = new System.Drawing.Size(181, 25);
             this.text_seat_category.TabIndex = 20;
@@ -141,7 +156,7 @@
             // 
             // text_name
             // 
-            this.text_name.Location = new System.Drawing.Point(661, 560);
+            this.text_name.Location = new System.Drawing.Point(677, 598);
             this.text_name.Name = "text_name";
             this.text_name.Size = new System.Drawing.Size(181, 25);
             this.text_name.TabIndex = 21;
@@ -149,7 +164,7 @@
             // 
             // text_starttime
             // 
-            this.text_starttime.Location = new System.Drawing.Point(661, 471);
+            this.text_starttime.Location = new System.Drawing.Point(677, 509);
             this.text_starttime.Name = "text_starttime";
             this.text_starttime.Size = new System.Drawing.Size(181, 25);
             this.text_starttime.TabIndex = 22;
@@ -157,7 +172,7 @@
             // 
             // text_ID
             // 
-            this.text_ID.Location = new System.Drawing.Point(453, 560);
+            this.text_ID.Location = new System.Drawing.Point(469, 598);
             this.text_ID.Name = "text_ID";
             this.text_ID.Size = new System.Drawing.Size(181, 25);
             this.text_ID.TabIndex = 23;
@@ -165,7 +180,7 @@
             // 
             // text_bottomid
             // 
-            this.text_bottomid.Location = new System.Drawing.Point(453, 604);
+            this.text_bottomid.Location = new System.Drawing.Point(469, 642);
             this.text_bottomid.Name = "text_bottomid";
             this.text_bottomid.Size = new System.Drawing.Size(389, 25);
             this.text_bottomid.TabIndex = 24;
@@ -173,7 +188,7 @@
             // 
             // text_che
             // 
-            this.text_che.Location = new System.Drawing.Point(864, 472);
+            this.text_che.Location = new System.Drawing.Point(880, 510);
             this.text_che.Name = "text_che";
             this.text_che.Size = new System.Drawing.Size(69, 25);
             this.text_che.TabIndex = 25;
@@ -181,7 +196,7 @@
             // 
             // text_hao
             // 
-            this.text_hao.Location = new System.Drawing.Point(986, 472);
+            this.text_hao.Location = new System.Drawing.Point(1002, 510);
             this.text_hao.Name = "text_hao";
             this.text_hao.Size = new System.Drawing.Size(59, 25);
             this.text_hao.TabIndex = 26;
@@ -189,7 +204,7 @@
             // 
             // text_jianpiao
             // 
-            this.text_jianpiao.Location = new System.Drawing.Point(864, 382);
+            this.text_jianpiao.Location = new System.Drawing.Point(880, 420);
             this.text_jianpiao.Name = "text_jianpiao";
             this.text_jianpiao.Size = new System.Drawing.Size(181, 25);
             this.text_jianpiao.TabIndex = 27;
@@ -198,7 +213,7 @@
             // button_Save
             // 
             this.button_Save.Cursor = System.Windows.Forms.Cursors.Default;
-            this.button_Save.Location = new System.Drawing.Point(864, 562);
+            this.button_Save.Location = new System.Drawing.Point(880, 600);
             this.button_Save.Name = "button_Save";
             this.button_Save.Size = new System.Drawing.Size(170, 66);
             this.button_Save.TabIndex = 28;
@@ -206,51 +221,164 @@
             this.button_Save.UseVisualStyleBackColor = true;
             this.button_Save.Click += new System.EventHandler(this.Button_Save_Click);
             // 
-            // Output_TrainTickets
-            // 
-            this.Output_TrainTickets.Location = new System.Drawing.Point(104, 464);
-            this.Output_TrainTickets.Name = "Output_TrainTickets";
-            this.Output_TrainTickets.Size = new System.Drawing.Size(225, 76);
-            this.Output_TrainTickets.TabIndex = 29;
-            this.Output_TrainTickets.Text = "导出所有车票";
-            this.Output_TrainTickets.UseVisualStyleBackColor = true;
-            this.Output_TrainTickets.Click += new System.EventHandler(this.Output_TrainTickets_Click);
-            // 
             // timer1
             // 
             this.timer1.Interval = 1;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
-            // button_Setting
+            // menuStrip
             // 
-            this.button_Setting.Font = new System.Drawing.Font("宋体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button_Setting.Location = new System.Drawing.Point(13, 587);
-            this.button_Setting.Name = "button_Setting";
-            this.button_Setting.Size = new System.Drawing.Size(75, 51);
-            this.button_Setting.TabIndex = 30;
-            this.button_Setting.Text = "设置";
-            this.button_Setting.UseVisualStyleBackColor = true;
-            this.button_Setting.Click += new System.EventHandler(this.Button_Setting_Click);
+            this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.文件ToolStripMenuItem,
+            this.设置ToolStripMenuItem,
+            this.关于ToolStripMenuItem});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(1080, 28);
+            this.menuStrip.TabIndex = 33;
+            this.menuStrip.Text = "menuStrip1";
             // 
-            // button_About
+            // 文件ToolStripMenuItem
             // 
-            this.button_About.Font = new System.Drawing.Font("宋体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button_About.Location = new System.Drawing.Point(94, 585);
-            this.button_About.Name = "button_About";
-            this.button_About.Size = new System.Drawing.Size(76, 54);
-            this.button_About.TabIndex = 31;
-            this.button_About.Text = "关于";
-            this.button_About.UseVisualStyleBackColor = true;
-            this.button_About.Click += new System.EventHandler(this.Button_About_Click);
+            this.文件ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.新疆ToolStripMenuItem,
+            this.导入ToolStripMenuItem,
+            this.导出ToolStripMenuItem,
+            this.删除ToolStripMenuItem});
+            this.文件ToolStripMenuItem.Name = "文件ToolStripMenuItem";
+            this.文件ToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.文件ToolStripMenuItem.Text = "文件";
+            // 
+            // 新疆ToolStripMenuItem
+            // 
+            this.新疆ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.火车票ToolStripMenuItem});
+            this.新疆ToolStripMenuItem.Name = "新疆ToolStripMenuItem";
+            this.新疆ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.新疆ToolStripMenuItem.Text = "新建";
+            // 
+            // 火车票ToolStripMenuItem
+            // 
+            this.火车票ToolStripMenuItem.Name = "火车票ToolStripMenuItem";
+            this.火车票ToolStripMenuItem.Size = new System.Drawing.Size(137, 26);
+            this.火车票ToolStripMenuItem.Text = "火车票";
+            this.火车票ToolStripMenuItem.Click += new System.EventHandler(this.火车票ToolStripMenuItem_Click);
+            // 
+            // 导入ToolStripMenuItem
+            // 
+            this.导入ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_InputAll});
+            this.导入ToolStripMenuItem.Name = "导入ToolStripMenuItem";
+            this.导入ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.导入ToolStripMenuItem.Text = "导入";
+            // 
+            // ToolStripMenuItem_InputAll
+            // 
+            this.ToolStripMenuItem_InputAll.Name = "ToolStripMenuItem_InputAll";
+            this.ToolStripMenuItem_InputAll.Size = new System.Drawing.Size(152, 26);
+            this.ToolStripMenuItem_InputAll.Text = "导入全部";
+            this.ToolStripMenuItem_InputAll.Click += new System.EventHandler(this.ToolStripMenuItem_InputAll_Click);
+            // 
+            // 导出ToolStripMenuItem
+            // 
+            this.导出ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem_OutputAll});
+            this.导出ToolStripMenuItem.Name = "导出ToolStripMenuItem";
+            this.导出ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.导出ToolStripMenuItem.Text = "导出";
+            // 
+            // ToolStripMenuItem_OutputAll
+            // 
+            this.ToolStripMenuItem_OutputAll.Name = "ToolStripMenuItem_OutputAll";
+            this.ToolStripMenuItem_OutputAll.Size = new System.Drawing.Size(152, 26);
+            this.ToolStripMenuItem_OutputAll.Text = "导出全部";
+            this.ToolStripMenuItem_OutputAll.Click += new System.EventHandler(this.ToolStripMenuItem_OutputAll_Click);
+            // 
+            // 删除ToolStripMenuItem
+            // 
+            this.删除ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.清除所有车票ToolStripMenuItem,
+            this.清除当前选中车票ToolStripMenuItem});
+            this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
+            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.删除ToolStripMenuItem.Text = "删除";
+            // 
+            // 清除所有车票ToolStripMenuItem
+            // 
+            this.清除所有车票ToolStripMenuItem.Name = "清除所有车票ToolStripMenuItem";
+            this.清除所有车票ToolStripMenuItem.Size = new System.Drawing.Size(227, 26);
+            this.清除所有车票ToolStripMenuItem.Text = "删除所有导入的车票";
+            this.清除所有车票ToolStripMenuItem.Click += new System.EventHandler(this.清除所有车票ToolStripMenuItem_Click);
+            // 
+            // 清除当前选中车票ToolStripMenuItem
+            // 
+            this.清除当前选中车票ToolStripMenuItem.Name = "清除当前选中车票ToolStripMenuItem";
+            this.清除当前选中车票ToolStripMenuItem.Size = new System.Drawing.Size(227, 26);
+            this.清除当前选中车票ToolStripMenuItem.Text = "删除当前选中车票";
+            this.清除当前选中车票ToolStripMenuItem.Click += new System.EventHandler(this.清除当前选中车票ToolStripMenuItem_Click);
+            // 
+            // 设置ToolStripMenuItem
+            // 
+            this.设置ToolStripMenuItem.Name = "设置ToolStripMenuItem";
+            this.设置ToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.设置ToolStripMenuItem.Text = "设置";
+            this.设置ToolStripMenuItem.Click += new System.EventHandler(this.设置ToolStripMenuItem_Click);
+            // 
+            // 关于ToolStripMenuItem
+            // 
+            this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.关于ToolStripMenuItem.Text = "关于";
+            this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
+            // 
+            // contextMenuStrip
+            // 
+            this.contextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.新建火车票ToolStripMenuItem,
+            this.导入ToolStripMenuItem1,
+            this.导出ToolStripMenuItem1,
+            this.删除ToolStripMenuItem1});
+            this.contextMenuStrip.Name = "contextMenuStrip1";
+            this.contextMenuStrip.Size = new System.Drawing.Size(211, 128);
+            // 
+            // 新建火车票ToolStripMenuItem
+            // 
+            this.新建火车票ToolStripMenuItem.Name = "新建火车票ToolStripMenuItem";
+            this.新建火车票ToolStripMenuItem.Size = new System.Drawing.Size(153, 24);
+            this.新建火车票ToolStripMenuItem.Text = "新建火车票";
+            this.新建火车票ToolStripMenuItem.Click += new System.EventHandler(this.新建火车票ToolStripMenuItem_Click);
+            // 
+            // 导入ToolStripMenuItem1
+            // 
+            this.导入ToolStripMenuItem1.Name = "导入ToolStripMenuItem1";
+            this.导入ToolStripMenuItem1.Size = new System.Drawing.Size(153, 24);
+            this.导入ToolStripMenuItem1.Text = "导入火车票";
+            // 
+            // 导出ToolStripMenuItem1
+            // 
+            this.导出ToolStripMenuItem1.Name = "导出ToolStripMenuItem1";
+            this.导出ToolStripMenuItem1.Size = new System.Drawing.Size(153, 24);
+            this.导出ToolStripMenuItem1.Text = "导出火车票";
+            // 
+            // 删除ToolStripMenuItem1
+            // 
+            this.删除ToolStripMenuItem1.Name = "删除ToolStripMenuItem1";
+            this.删除ToolStripMenuItem1.Size = new System.Drawing.Size(210, 24);
+            this.删除ToolStripMenuItem1.Text = "删除火车票";
+            this.删除ToolStripMenuItem1.Click += new System.EventHandler(this.删除ToolStripMenuItem1_Click);
+            // 
+            // FormOpentimer
+            // 
+            this.FormOpentimer.Interval = 1;
+            this.FormOpentimer.Tick += new System.EventHandler(this.FormOpentimer_Tick);
             // 
             // TrainTicketMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1065, 653);
-            this.Controls.Add(this.button_About);
-            this.Controls.Add(this.button_Setting);
-            this.Controls.Add(this.Output_TrainTickets);
+            this.ClientSize = new System.Drawing.Size(1080, 702);
             this.Controls.Add(this.button_Save);
             this.Controls.Add(this.text_jianpiao);
             this.Controls.Add(this.text_hao);
@@ -267,25 +395,29 @@
             this.Controls.Add(this.text_starting_station);
             this.Controls.Add(this.text_ticket_num);
             this.Controls.Add(this.TicketPictureBox);
-            this.Controls.Add(this.button_InputTickets);
             this.Controls.Add(this.TrainTicketsInfoView);
+            this.Controls.Add(this.menuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.Name = "TrainTicketMainForm";
             this.Opacity = 0D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "AI智能火车票识别修改系统 ";
             this.Load += new System.EventHandler(this.TrainTicketMainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TicketPictureBox)).EndInit();
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
+            this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
+
+
         #endregion
 
         public  System.Windows.Forms.ListBox TrainTicketsInfoView;
-        private System.Windows.Forms.Button button_InputTickets;
         public System.Windows.Forms.PictureBox TicketPictureBox;
         private System.Windows.Forms.TextBox text_ticket_num;
         private System.Windows.Forms.TextBox text_starting_station;
@@ -302,9 +434,25 @@
         private System.Windows.Forms.TextBox text_hao;
         private System.Windows.Forms.TextBox text_jianpiao;
         private System.Windows.Forms.Button button_Save;
-        private System.Windows.Forms.Button Output_TrainTickets;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Button button_Setting;
-        private System.Windows.Forms.Button button_About;
+        private MenuStrip menuStrip;
+        private ToolStripMenuItem 文件ToolStripMenuItem;
+        private ToolStripMenuItem 新疆ToolStripMenuItem;
+        private ToolStripMenuItem 导入ToolStripMenuItem;
+        private ToolStripMenuItem 导出ToolStripMenuItem;
+        private ToolStripMenuItem 设置ToolStripMenuItem;
+        private ToolStripMenuItem 火车票ToolStripMenuItem;
+        private ToolStripMenuItem ToolStripMenuItem_InputAll;
+        private ToolStripMenuItem ToolStripMenuItem_OutputAll;
+        private ToolStripMenuItem 关于ToolStripMenuItem;
+        private ToolStripMenuItem 删除ToolStripMenuItem;
+        private ToolStripMenuItem 清除所有车票ToolStripMenuItem;
+        private ToolStripMenuItem 清除当前选中车票ToolStripMenuItem;
+        private ContextMenuStrip contextMenuStrip;
+        private ToolStripMenuItem 新建火车票ToolStripMenuItem;
+        private ToolStripMenuItem 导入ToolStripMenuItem1;
+        private ToolStripMenuItem 导出ToolStripMenuItem1;
+        private ToolStripMenuItem 删除ToolStripMenuItem1;
+        private Timer FormOpentimer;
     }
 }

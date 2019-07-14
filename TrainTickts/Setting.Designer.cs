@@ -37,6 +37,12 @@
             this.button_ChooseFinishTicketsFile = new System.Windows.Forms.Button();
             this.button_OpenFinishTicketsFile = new System.Windows.Forms.Button();
             this.button_FinishTicketsOrinFile = new System.Windows.Forms.Button();
+            this.label_OrinTicket = new System.Windows.Forms.Label();
+            this.textBox_Orinticketpath = new System.Windows.Forms.TextBox();
+            this.textBox_Baseticketpath = new System.Windows.Forms.TextBox();
+            this.label_BaseTicket = new System.Windows.Forms.Label();
+            this.textBox_Saveticketpath = new System.Windows.Forms.TextBox();
+            this.label_SaveTicket = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button_ChooseOrinTicketsFile
@@ -129,11 +135,71 @@
             this.button_FinishTicketsOrinFile.UseVisualStyleBackColor = true;
             this.button_FinishTicketsOrinFile.Click += new System.EventHandler(this.Button_FinishTicketsOrinFile_Click);
             // 
+            // label_OrinTicket
+            // 
+            this.label_OrinTicket.AutoSize = true;
+            this.label_OrinTicket.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_OrinTicket.Location = new System.Drawing.Point(22, 34);
+            this.label_OrinTicket.Name = "label_OrinTicket";
+            this.label_OrinTicket.Size = new System.Drawing.Size(139, 20);
+            this.label_OrinTicket.TabIndex = 15;
+            this.label_OrinTicket.Text = "原始车票目录:";
+            // 
+            // textBox_Orinticketpath
+            // 
+            this.textBox_Orinticketpath.Location = new System.Drawing.Point(157, 29);
+            this.textBox_Orinticketpath.Name = "textBox_Orinticketpath";
+            this.textBox_Orinticketpath.Size = new System.Drawing.Size(395, 25);
+            this.textBox_Orinticketpath.TabIndex = 16;
+            this.textBox_Orinticketpath.TextChanged += new System.EventHandler(this.TextBox_Orinticketpath_TextChanged);
+            // 
+            // textBox_Baseticketpath
+            // 
+            this.textBox_Baseticketpath.Location = new System.Drawing.Point(157, 98);
+            this.textBox_Baseticketpath.Name = "textBox_Baseticketpath";
+            this.textBox_Baseticketpath.Size = new System.Drawing.Size(395, 25);
+            this.textBox_Baseticketpath.TabIndex = 18;
+            this.textBox_Baseticketpath.TextChanged += new System.EventHandler(this.TextBox_Baseticketpath_TextChanged);
+            // 
+            // label_BaseTicket
+            // 
+            this.label_BaseTicket.AutoSize = true;
+            this.label_BaseTicket.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_BaseTicket.Location = new System.Drawing.Point(22, 103);
+            this.label_BaseTicket.Name = "label_BaseTicket";
+            this.label_BaseTicket.Size = new System.Drawing.Size(139, 20);
+            this.label_BaseTicket.TabIndex = 17;
+            this.label_BaseTicket.Text = "模板车票目录:";
+            // 
+            // textBox_Saveticketpath
+            // 
+            this.textBox_Saveticketpath.Location = new System.Drawing.Point(157, 175);
+            this.textBox_Saveticketpath.Name = "textBox_Saveticketpath";
+            this.textBox_Saveticketpath.Size = new System.Drawing.Size(395, 25);
+            this.textBox_Saveticketpath.TabIndex = 20;
+            this.textBox_Saveticketpath.TextChanged += new System.EventHandler(this.TextBox_Saveticketpath_TextChanged);
+            // 
+            // label_SaveTicket
+            // 
+            this.label_SaveTicket.AutoSize = true;
+            this.label_SaveTicket.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_SaveTicket.Location = new System.Drawing.Point(22, 180);
+            this.label_SaveTicket.Name = "label_SaveTicket";
+            this.label_SaveTicket.Size = new System.Drawing.Size(139, 20);
+            this.label_SaveTicket.TabIndex = 19;
+            this.label_SaveTicket.Text = "导出车票目录:";
+            // 
             // Setting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(863, 273);
+            this.Controls.Add(this.textBox_Saveticketpath);
+            this.Controls.Add(this.label_SaveTicket);
+            this.Controls.Add(this.textBox_Baseticketpath);
+            this.Controls.Add(this.label_BaseTicket);
+            this.Controls.Add(this.textBox_Orinticketpath);
+            this.Controls.Add(this.label_OrinTicket);
             this.Controls.Add(this.button_FinishTicketsOrinFile);
             this.Controls.Add(this.button_OpenFinishTicketsFile);
             this.Controls.Add(this.button_ChooseFinishTicketsFile);
@@ -148,10 +214,11 @@
             this.Name = "Setting";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "设置";
             this.Load += new System.EventHandler(this.Setting_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -166,5 +233,11 @@
         private System.Windows.Forms.Button button_ChooseFinishTicketsFile;
         private System.Windows.Forms.Button button_OpenFinishTicketsFile;
         private System.Windows.Forms.Button button_FinishTicketsOrinFile;
+        private System.Windows.Forms.Label label_OrinTicket;
+        public System.Windows.Forms.TextBox textBox_Orinticketpath;
+        public System.Windows.Forms.TextBox textBox_Baseticketpath;
+        private System.Windows.Forms.Label label_BaseTicket;
+        public System.Windows.Forms.TextBox textBox_Saveticketpath;
+        private System.Windows.Forms.Label label_SaveTicket;
     }
 }

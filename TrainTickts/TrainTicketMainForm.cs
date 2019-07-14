@@ -18,6 +18,9 @@ namespace TrainTickets
         public static TrainTicketMainForm _S;
         Setting Form_Setting = new Setting();
         AboutBox Form_AboutBox = new AboutBox();
+        public  AreYouKidMe Form_AreYouKidMe = new AreYouKidMe();
+        const int OrinWidth=350;
+        int OpenWidth;
         public TrainTicketMainForm()
         {
             InitializeComponent();
@@ -25,6 +28,8 @@ namespace TrainTickets
         }
 
         TrainTicketInfo NowSlectTickets;
+        private bool ISOpen;
+
         private void TrainTicketMainForm_Load(object sender, EventArgs e)
         {
 
@@ -39,99 +44,27 @@ namespace TrainTickets
             TrainTicket.InitPeople_ID();
             TrainTicket.BaseTicketImage = TicketImageTool.LoadAllBaseTrainTicketsImage();
             TrainTicket.OnTrainTicketMaked += UpdateTrainTicketView;
+            TrainTicket.OnTrainTicketError += TrainTicketError;
             Control.CheckForIllegalCrossThreadCalls = false;
             _S.Opacity = 0;
             _S.timer1.Enabled = true;
             _S.Text = String.Format("AI智能火车票识别修改系统      版本:{0}", Application.ProductVersion);
-            var tick = new TrainTicketInfo();
-            //初始化车票信息
-            {
-                Random ran = new Random();
-                int n = ran.Next(10, 24);
-                int n2 = ran.Next(10, 24);
-                tick.train_starttime = n + ":" + n2;
-                int n3 = ran.Next(1, 9);
-                tick.train_che = "0" + n3;
-                int n4 = ran.Next(1, 9);
-                tick.logid = "123456789";
-                tick.train_hao = "0" + n4 + "B";
-                tick.ticket_num = "Z19W051789";
-                tick.date = "2019年06月29日";
-                tick.destination_station = "杭州站";
-                tick.starting_station = "绍兴站";
-                tick.seat_category = "二等座";
-                tick.train_num = "G1505";
-                tick.ticket_rates = "￥10.0元";
-                tick.name = "王雅美";
-                tick.ID = "384951990042215674";
-                tick.bottomid = TrainTicket.GetRandombottomid();
-                tick.jianpiao = String.Format("检票:{0}", TrainTicket.GetRandomLetter().ToString() + new Random().Next(0, 9).ToString());
-            }
-            var tick2 = new TrainTicketInfo();
-            //初始化车票信息
-            {
-                Random ran = new Random();
-                int n = ran.Next(10, 24);
-                int n2 = ran.Next(10, 24);
-                tick2.train_starttime = n + ":" + n2;
-                int n3 = ran.Next(1, 9);
-                tick2.train_che = "0" + n3;
-                int n4 = ran.Next(1, 9);
-                tick2.logid = "869422238";
-                tick2.train_hao = "0" + n4 + "B";
-                tick2.ticket_num = "Z19W051789";
-                tick2.date = "2019年06月29日";
-                tick2.destination_station = "衢州站";
-                tick2.starting_station = "绍兴站";
-                tick2.seat_category = "二等座";
-                tick2.train_num = "G1505";
-                tick2.ticket_rates = "￥10.0元";
-                tick2.name = "王雅美";
-                tick2.ID = "384951990042215674";
-                tick2.bottomid = TrainTicket.GetRandombottomid();
-                tick2.jianpiao = String.Format("检票:{0}", TrainTicket.GetRandomLetter().ToString() + new Random().Next(0, 9).ToString());
-            }
-            //var ticket = TrainTicket.AI_TrainTicket(TicketImageTool.LoadAllTrainTicketsImage()[0]);
-          //  TrainTicket.TrainTickets_Info.Add(ticket);
-            TrainTicket.TrainTickets_Info.Add(tick2);
-            TrainTicket.TrainTickets_Info.Add(tick);
+            OpenWidth = Width;
+            Width = 350;
+
         }
 
-        private void Button_InputTickets_Click(object sender, EventArgs e)
+        private void TrainTicketError(Image obj)
         {
-            string EMPTYinfo=null;
-            if (TrainTicketsInfoView.Items.Count > 0||TrainTicket.TrainTickets_Info.Count>0)
-            {
-                EMPTYinfo = "这样做会清空已经加载的车票数据";
-            }
-          var iscontinue=  MessageBox.Show("确定要进行车票导入并识别？\n"+ EMPTYinfo, "车票识别系统", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (iscontinue == DialogResult.No)
-            {
-               // MessageBox.Show("操作已取消", "车票识别系统", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            if (TrainTicket.BaseTicketImage == null || TrainTicket.BaseTicketImage.Count <= 0)
-            {
-                MessageBox.Show("没有车票模板文件\n请先放入模板文件再进行车票识别操作", "车票识别系统", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                System.Diagnostics.Process.Start(TrainTicket.BaseTickfilePath);
-                return;
-            }
-            MessageBox.Show("正在导入并识别车票中", "车票识别系统", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            var All_TrainTicketsimage=  TicketImageTool.LoadAllTrainTicketsImage();
-            foreach (var item in All_TrainTicketsimage)
-            {
-             // TrainTicket.TrainTickets_Info.Add(TrainTicket.AI_TrainTicket(item));
-            }
-
-           // test_TrainTickets();
-            AI_LoadAllTrainTickets();
-
+            //throw new NotImplementedException();
+            Form_AreYouKidMe.pictureBox1.Image = obj;
+            Form_AreYouKidMe.ShowDialog();
         }
         void AI_LoadAllTrainTickets()
         {
             TrainTicketsInfoView.Items.Clear();
             TrainTicket.TrainTickets_Info.Clear();
+            TrainTicket.TrainTickets_Image.Clear();
             var AllTrainticketimage = TicketImageTool.LoadAllTrainTicketsImage();
             foreach (var item in AllTrainticketimage)
             {
@@ -140,25 +73,112 @@ namespace TrainTickets
         }
         public void UpdateTrainTicketView(TrainTicketInfo ticketInfo)
         {
-            TrainTicketsInfoView.Items.Add(ticketInfo.logid);
-            UpateTicketPictureBoxImage(ticketInfo.logid, false);
-            MessageBox.Show(String.Format("成功导入车票!\nID:{0}\n车票号码:{1}\n姓名:{2}\n出发站:{3}\n到达站:{4}", ticketInfo.logid,ticketInfo.ticket_num,ticketInfo.name,ticketInfo.starting_station,ticketInfo.destination_station), "车票识别系统", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            AddTrainTicket(ticketInfo);
+
         }
 
         public void test_TrainTickets()
         {
             TrainTicketsInfoView.Items.Clear();
-            foreach (var item in TrainTicket.TrainTickets_Info)
-            {
-                TrainTicketsInfoView.Items.Add(item.logid);
-                UpateTicketPictureBoxImage(item.logid, false);
-            }
+            TrainTicket.TrainTickets_Info.Clear();
+            TrainTicket.TrainTickets_Image.Clear();
+            CreateTrainTicket();
+            CreateTrainTicket();
         }
+        public void CreateTrainTicket()
+        {
+            var NEWticket = new TrainTicketInfo();
+            //初始化车票信息
+            {
+                Random ran = new Random();
+                int n = ran.Next(10, 24);
+                int n2 = ran.Next(10, 24);
+                NEWticket.train_starttime = n + ":" + n2;
+                int n3 = ran.Next(1, 9);
+                NEWticket.train_che = "0" + n3;
+                int n4 = ran.Next(1, 9);
+                NEWticket.logid = GetRandomlogid();
+                NEWticket.train_hao = "0" + n4 + "B";
+                NEWticket.ticket_num = "Z19W051789";
+                NEWticket.date = "2019年06月29日";
+                NEWticket.destination_station = "杭州东站";
+                NEWticket.starting_station = "绍兴北站";
+                NEWticket.seat_category = "二等座";
+                NEWticket.train_num = "G1234";
+                NEWticket.ticket_rates = "￥10.0元";
+                NEWticket.name = "王小明";
+                NEWticket.ID = "384951990042215674";
+                NEWticket.bottomid = TrainTicket.GetRandombottomid();
+                NEWticket.jianpiao = String.Format("检票:{0}", TrainTicket.GetRandomLetter().ToString() + new Random().Next(0, 9).ToString());
+            }
+            //var ticket = TrainTicket.AI_TrainTicket(TicketImageTool.LoadAllTrainTicketsImage()[0]);
+            //  TrainTicket.TrainTickets_Info.Add(ticket);
+           // TrainTicket.TrainTickets_Info.Add(NEWticket);
+            AddTrainTicket(NEWticket);
+        }
+        public  void AddTrainTicket(TrainTicketInfo trainTicketInfo)
+        {
+            TrainTicket.TrainTickets_Info.Add(trainTicketInfo);
+            TrainTicketsInfoView.Items.Add(trainTicketInfo.logid);
+            UpateTicketPictureBoxImage(trainTicketInfo.logid, false);
+            MessageBox.Show(String.Format("成功导入车票!\nID:{0}\n车票号码:{1}\n姓名:{2}\n出发站:{3}\n到达站:{4}", trainTicketInfo.logid, trainTicketInfo.ticket_num, trainTicketInfo.name, trainTicketInfo.starting_station, trainTicketInfo.destination_station), "车票识别系统", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        public string GetRandomlogid()
+        {
+            string result = null;
+            for (int i = 0; i < 11; i++)
+            {
+                result += TrainTicket.GetRandomNumber();
+            }
+            return result;
+        }
+        private void TrainTicketsInfoView_MouseDown(object sender, MouseEventArgs e)
+        {
+            var index = TrainTicketsInfoView.IndexFromPoint(e.X, e.Y);
+            TrainTicketsInfoView.SelectedIndex = index;
+            if (index == -1)
+            {
+                TrainTicketsInfoView.ClearSelected();
+                ClearTicketPictureBoxImage();
+                ClearTickText();
+                if (Width > OrinWidth)
+                {
+                    ISOpen = false;
+                    FormOpentimer.Enabled = true;
+                }
 
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+               contextMenuStrip.Show(TrainTicketsInfoView, new Point(e.X, e.Y));
+            }
 
+        }
+        public void ClearTicketPictureBoxImage()
+        {
+            TicketPictureBox.Image = null;
+        }
+        public void ClearTickText()
+        {
+            text_ticket_num.Text = null;
+            text_train_num.Text = null;
+            text_ticket_rates.Text = null;
+            text_starting_station.Text = null;
+            text_destination_station.Text = null;
+            text_ID.Text = null;
+            text_name.Text = null;
+            text_date.Text = null;
+            text_starttime.Text = null;
+            text_seat_category.Text = null;
+            text_bottomid.Text = null;
+            text_jianpiao.Text = null;
+            text_che.Text = null;
+            text_hao.Text = null;
+        }
         private void TrainTicketsInfoView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // MessageBox.Show(TrainTicketsInfoView.SelectedItem.ToString(), "信息", MessageBoxButtons.OK);
+
+                // MessageBox.Show(TrainTicketsInfoView.SelectedItem.ToString(), "信息", MessageBoxButtons.OK);
             if (TrainTicketsInfoView.SelectedItem == null)
             {
                 TrainTicketsInfoView.ClearSelected();
@@ -198,13 +218,23 @@ namespace TrainTickets
             {
                 UpateTicketPictureBoxImage(TrainTicketsInfoView.SelectedItem.ToString());
             }
+            if (Width < OpenWidth)
+            {
+                ISOpen = true;
+                FormOpentimer.Enabled = true;
+            }
+
         }
 
 
 
         private void Button_Save_Click(object sender, EventArgs e)
         {
-
+            if (TrainTicketsInfoView.Items.Count<=0 || TrainTicketsInfoView.SelectedIndex == -1)
+            {
+                MessageBox.Show("您并没有选择任何车票", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
             NowSlectTickets.ticket_num = text_ticket_num.Text;
             NowSlectTickets.train_num= text_train_num.Text;
             NowSlectTickets.ticket_rates = text_ticket_rates.Text;
@@ -265,21 +295,40 @@ namespace TrainTickets
             }
             TicketPictureBox.Image = TicketImageTool.shrinkTo(findimage, new Size((findimage.Width + trimvalue) / 3, (findimage.Height + trimvalue) / 3), false);
         }
-        private void Output_TrainTickets_Click(object sender, EventArgs e)
+        private void TrainTicketsInfoView_DragEnter(object sender, DragEventArgs e)
         {
-            if (TrainTicket.TrainTickets_Image.Count <= 0)
-            {
-                MessageBox.Show("没有任何的车票可以导出:", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
-            foreach (var item in TrainTicket.TrainTickets_Image)
-            {
-                item.Value.Save(TrainTicket.savePath+item.Key+".jpg");
-            }
-            MessageBox.Show("导出成功:"+ TrainTicket.TrainTickets_Image.Count +"张车票", "保存信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            System.Diagnostics.Process.Start(TrainTicket.savePath);
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+            else
+                e.Effect = DragDropEffects.None;
         }
-
+        private void TrainTicketsInfoView_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] fileNames = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            List<Image> loudimages = new List<Image>() ;
+            if (fileNames.Length > 0)
+            {
+                foreach (var item in fileNames)
+                {
+                    try
+                    {
+                    loudimages.Add(Image.FromFile(item));
+                    }
+                    catch
+                    {
+                        MessageBox.Show("错误！拖入的:" + item+ "不是有效的图片文件", "图片加载", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                    //
+                }
+                if (loudimages.Count > 0)
+                {
+                    foreach (var item in loudimages)
+                    {
+                        TrainTicket.AI_TrainTicket(item);
+                    }
+                }
+            }
+        }
         private void Timer1_Tick(object sender, EventArgs e)
         {
             
@@ -290,14 +339,173 @@ namespace TrainTickets
             }
         }
 
-        private void Button_Setting_Click(object sender, EventArgs e)
+        public void RemoveTrainTicket(string logid)
+        {
+            if (TrainTicket.TrainTickets_Info.Count <= 0)
+            {
+                MessageBox.Show("你还没导入任何车票呢！\n你删除个鬼啊？", "删除操作", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (TrainTicketsInfoView.SelectedIndex == -1)
+            {
+                MessageBox.Show("车票都没选......\n你让我删啥玩意？", "删除操作", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            var iscontinue=  MessageBox.Show("确定要删除车票\n" + logid, "车票识别系统", MessageBoxButtons.YesNo, 
+                MessageBoxIcon.Information);
+            if (iscontinue == DialogResult.No)
+            {
+                return;
+            }
+            TrainTicket.TrainTickets_Info.Remove(TrainTicket.GetTrainTicket(logid));
+            TrainTicketsInfoView.Items.Remove(logid);
+            TrainTicket.TrainTickets_Image.Remove(logid);
+            ClearTicketPictureBoxImage();
+            ClearTickText();
+            if (Width > OrinWidth)
+            {
+                ISOpen = false;
+                FormOpentimer.Enabled = true;
+            }
+            MessageBox.Show("成功删除车票:"+logid, "删除车票", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        }
+        private void ToolStripMenuItem_InputAll_Click(object sender, EventArgs e)
+        {
+            string EMPTYinfo = null;
+            if (TrainTicketsInfoView.Items.Count > 0 || TrainTicket.TrainTickets_Info.Count > 0)
+            {
+                EMPTYinfo = "这样做会清空已经加载的车票数据";
+            }
+            var iscontinue = MessageBox.Show("确定要进行车票导入并识别？\n" + EMPTYinfo, "车票识别系统", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (iscontinue == DialogResult.No)
+            {
+                // MessageBox.Show("操作已取消", "车票识别系统", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if (TrainTicket.BaseTicketImage == null || TrainTicket.BaseTicketImage.Count <= 0)
+            {
+                MessageBox.Show("没有车票模板文件\n请先放入模板文件再进行车票识别操作", "车票识别系统", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                System.Diagnostics.Process.Start(TrainTicket.BaseTickfilePath);
+                return;
+            }
+            MessageBox.Show("正在导入并识别车票中", "车票识别系统", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            test_TrainTickets();
+           // AI_LoadAllTrainTickets();
+        }
+
+        private void ToolStripMenuItem_OutputAll_Click(object sender, EventArgs e)
+        {
+            if (TrainTicket.TrainTickets_Image.Count <= 0)
+            {
+                MessageBox.Show("没有任何的车票可以导出:", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            foreach (var item in TrainTicket.TrainTickets_Image)
+            {
+                item.Value.Save(TrainTicket.savePath + item.Key + ".jpg");
+            }
+            MessageBox.Show("导出成功:" + TrainTicket.TrainTickets_Image.Count + "张车票", "保存信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            System.Diagnostics.Process.Start(TrainTicket.savePath);
+        }
+
+        private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form_AboutBox.ShowDialog();
+        }
+
+        private void 设置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form_Setting.ShowDialog();
         }
 
-        private void Button_About_Click(object sender, EventArgs e)
+        private void 火车票ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form_AboutBox.ShowDialog();
+            CreateTrainTicket();
+        }
+
+        private void 清除当前选中车票ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (TrainTicket.TrainTickets_Info.Count <= 0)
+            {
+                MessageBox.Show("你还没导入任何车票呢！\n你删除个鬼啊？", "删除操作", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            if (TrainTicketsInfoView.SelectedIndex == -1)
+            {
+                MessageBox.Show("车票都没选......\n你让我删啥玩意？", "删除操作", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            RemoveTrainTicket(TrainTicketsInfoView.SelectedItem.ToString());
+        }
+
+        private void 火车票ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            CreateTrainTicket();
+        }
+
+        private void 新建火车票ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateTrainTicket();
+        }
+
+        private void FormOpentimer_Tick(object sender, EventArgs e)
+        {
+            int Speed = Width/15;
+            if (ISOpen)
+            {
+                Width += Speed;
+                if (Width >= OpenWidth)
+                {
+                    Width = OpenWidth;
+                    FormOpentimer.Enabled = false;
+                }
+            }
+            else
+            {
+                Width -= Speed;
+                if (Width <= OrinWidth)
+                {
+                    Width = OrinWidth;
+                    FormOpentimer.Enabled = false;
+                }
+            }
+
+        }
+
+        private void 清除所有车票ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (TrainTicket.TrainTickets_Info.Count <= 0)
+            {
+                MessageBox.Show("你还没导入任何车票呢！\n你删除个鬼啊？", "删除操作", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            var iscontinue = MessageBox.Show("确定要删除所有导入的车票？", "删除操作", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (iscontinue == DialogResult.No)
+            {
+                return;
+            }
+            TrainTicket.TrainTickets_Info.Clear();
+            TrainTicketsInfoView.Items.Clear();
+            TrainTicket.TrainTickets_Image.Clear();
+            MessageBox.Show("清理成功！", "删除操作", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void 删除ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (TrainTicket.TrainTickets_Info.Count <= 0)
+            {
+                MessageBox.Show("你还没导入任何车票呢！\n你删除个鬼啊？", "删除操作", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            if (TrainTicketsInfoView.SelectedIndex == -1)
+            {
+                MessageBox.Show("车票都没选......\n你让我删啥玩意？", "删除操作", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            RemoveTrainTicket(TrainTicketsInfoView.SelectedItem.ToString());
         }
     }
 

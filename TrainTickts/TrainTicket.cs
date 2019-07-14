@@ -74,35 +74,64 @@ namespace TicketsBase
         public static void TrainTicketDemo()
         {
             var image = File.ReadAllBytes(filePath);
+            //预先识别检查是否为一张可以识别的火车票
+            try
+            {
+                var firstresult= client.GeneralBasic(image);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(string.Format("识别错误{0}", e), "车票识别", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
             // 调用火车票识别
             try
             {
                 var result = client.TrainTicket(image);
-                Console.WriteLine(result);
-                Console.WriteLine(result["words_result"]["name"]);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                MessageBox.Show(string.Format("识别错误{0}",e),"车票识别",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
         }
 
+
          static byte[] Imageinfo;
        static Action callback;
+       static Thread thread_TrainTickets;
+        static Image OrinImage;
         public static void AI_TrainTicket(Image image)
         {
-            
+            OrinImage = image;
             Imageinfo= TicketImageTool.imageToByte(image);
-            Thread thread_TrainTickets = new Thread(new ThreadStart(TrainTickets));
+            thread_TrainTickets = new Thread(new ThreadStart(TrainTickets));
             thread_TrainTickets.Start();
         }
        public static Action<TrainTicketInfo> OnTrainTicketMaked;
+        public static Action<Image> OnTrainTicketError;
         public static void TrainTickets()
         {
             JObject result = null;
+            JObject firstresult = null;
+            //预先识别检查是否为一张可以识别的火车票
             try
             {
-                result = client.TrainTicket(Imageinfo);
+                firstresult = client.GeneralBasic(Imageinfo);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(string.Format("识别错误{0}", e), "车票识别", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            var resultnum= (int)firstresult["words_result_num"];
+            if (resultnum < 15)
+            {
+                OnTrainTicketError(OrinImage);
+                return;
+            }
+            // 调用火车票识别
+            try
+            {
+               result = client.TrainTicket(Imageinfo);
             }
             catch (Exception e)
             {
@@ -130,12 +159,19 @@ namespace TicketsBase
             int n4 = ran.Next(1, 9);
             Tickinfo.train_hao = "0" + n4 + "B";
             Tickinfo.ID = "362301998123457130";
-            if (People_ID.ContainsKey(Tickinfo.name))
+            if (!String.IsNullOrWhiteSpace(Tickinfo.name))
             {
-                Tickinfo.ID = People_ID[Tickinfo.name];
+                if (People_ID.ContainsKey(Tickinfo.name))
+                {
+                    Tickinfo.ID = People_ID[Tickinfo.name];
+                }
+                else
+                {
+                    MessageBox.Show(String.Format("找不到{0}这人的身份证\n请手动添加\n或去设置中的身份证设置中进行添加", Tickinfo.name), "车票识别", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
+
             Tickinfo.bottomid = GetRandombottomid();
-            TrainTicket.TrainTickets_Info.Add(Tickinfo);
             OnTrainTicketMaked(Tickinfo);
 
             return ;
