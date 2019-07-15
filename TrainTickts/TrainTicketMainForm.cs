@@ -48,7 +48,7 @@ namespace TrainTickets
             Control.CheckForIllegalCrossThreadCalls = false;
             _S.Opacity = 0;
             _S.timer1.Enabled = true;
-            _S.Text = String.Format("AI智能火车票识别修改系统      版本:{0}", Application.ProductVersion);
+            _S.Text = String.Format("AI智能火车票识别修改系统-版本:{0}", Application.ProductVersion);
             OpenWidth = Width;
             Width = 350;
 
@@ -506,6 +506,43 @@ namespace TrainTickets
                 return;
             }
             RemoveTrainTicket(TrainTicketsInfoView.SelectedItem.ToString());
+        }
+
+        private void 导入ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "JPG文件|*.jpg|PNG文件|*.png";
+            Image loudimage=null;
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                loudimage = Image.FromFile(dlg.FileName);
+                if (loudimage != null)
+                {
+                    TrainTicket.AI_TrainTicket(loudimage);
+                }
+            }
+
+        }
+
+        private void 导出ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (TrainTicketsInfoView.SelectedIndex == -1)
+            {
+             var dialogresult=   MessageBox.Show("车票都没选。。。要不我导出一个空气给你？", "导出车票错误", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogresult == DialogResult.Yes)
+                {
+                    MessageBox.Show("你还真的。。。。、\n脸皮厚。。。没车票导出个鬼啊！！！", "导出车票错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                return;
+            }
+            if (TrainTicketsInfoView.Items.Count <= 0)
+            {
+                MessageBox.Show("一张车票都没有，导出啥玩意？", "导出车票错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            var logid = TrainTicketsInfoView.SelectedItem.ToString();
+           TrainTicket.GetTrainTicketImage(logid).Save(TrainTicket.savePath+logid+".jpg");
+            MessageBox.Show("车票"+logid+"导出成功", "导出车票成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            System.Diagnostics.Process.Start(TrainTicket.savePath);
         }
     }
 

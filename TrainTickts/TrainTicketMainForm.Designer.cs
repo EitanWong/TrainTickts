@@ -91,7 +91,7 @@ namespace TrainTickets
             this.TrainTicketsInfoView.ItemHeight = 25;
             this.TrainTicketsInfoView.Location = new System.Drawing.Point(12, 45);
             this.TrainTicketsInfoView.Name = "TrainTicketsInfoView";
-            this.TrainTicketsInfoView.Size = new System.Drawing.Size(419, 604);
+            this.TrainTicketsInfoView.Size = new System.Drawing.Size(419, 629);
             this.TrainTicketsInfoView.TabIndex = 0;
             this.TrainTicketsInfoView.SelectedIndexChanged += new System.EventHandler(this.TrainTicketsInfoView_SelectedIndexChanged);
             this.TrainTicketsInfoView.DragDrop += new System.Windows.Forms.DragEventHandler(this.TrainTicketsInfoView_DragDrop);
@@ -255,7 +255,7 @@ namespace TrainTickets
             this.新疆ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.火车票ToolStripMenuItem});
             this.新疆ToolStripMenuItem.Name = "新疆ToolStripMenuItem";
-            this.新疆ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.新疆ToolStripMenuItem.Size = new System.Drawing.Size(122, 26);
             this.新疆ToolStripMenuItem.Text = "新建";
             // 
             // 火车票ToolStripMenuItem
@@ -270,7 +270,7 @@ namespace TrainTickets
             this.导入ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_InputAll});
             this.导入ToolStripMenuItem.Name = "导入ToolStripMenuItem";
-            this.导入ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.导入ToolStripMenuItem.Size = new System.Drawing.Size(122, 26);
             this.导入ToolStripMenuItem.Text = "导入";
             // 
             // ToolStripMenuItem_InputAll
@@ -285,7 +285,7 @@ namespace TrainTickets
             this.导出ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItem_OutputAll});
             this.导出ToolStripMenuItem.Name = "导出ToolStripMenuItem";
-            this.导出ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.导出ToolStripMenuItem.Size = new System.Drawing.Size(122, 26);
             this.导出ToolStripMenuItem.Text = "导出";
             // 
             // ToolStripMenuItem_OutputAll
@@ -301,7 +301,7 @@ namespace TrainTickets
             this.清除所有车票ToolStripMenuItem,
             this.清除当前选中车票ToolStripMenuItem});
             this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
-            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(122, 26);
             this.删除ToolStripMenuItem.Text = "删除";
             // 
             // 清除所有车票ToolStripMenuItem
@@ -353,19 +353,21 @@ namespace TrainTickets
             // 导入ToolStripMenuItem1
             // 
             this.导入ToolStripMenuItem1.Name = "导入ToolStripMenuItem1";
-            this.导入ToolStripMenuItem1.Size = new System.Drawing.Size(153, 24);
+            this.导入ToolStripMenuItem1.Size = new System.Drawing.Size(210, 24);
             this.导入ToolStripMenuItem1.Text = "导入火车票";
+            this.导入ToolStripMenuItem1.Click += new System.EventHandler(this.导入ToolStripMenuItem1_Click);
             // 
             // 导出ToolStripMenuItem1
             // 
             this.导出ToolStripMenuItem1.Name = "导出ToolStripMenuItem1";
-            this.导出ToolStripMenuItem1.Size = new System.Drawing.Size(153, 24);
+            this.导出ToolStripMenuItem1.Size = new System.Drawing.Size(210, 24);
             this.导出ToolStripMenuItem1.Text = "导出火车票";
+            this.导出ToolStripMenuItem1.Click += new System.EventHandler(this.导出ToolStripMenuItem1_Click);
             // 
             // 删除ToolStripMenuItem1
             // 
             this.删除ToolStripMenuItem1.Name = "删除ToolStripMenuItem1";
-            this.删除ToolStripMenuItem1.Size = new System.Drawing.Size(210, 24);
+            this.删除ToolStripMenuItem1.Size = new System.Drawing.Size(153, 24);
             this.删除ToolStripMenuItem1.Text = "删除火车票";
             this.删除ToolStripMenuItem1.Click += new System.EventHandler(this.删除ToolStripMenuItem1_Click);
             // 

@@ -16,3 +16,8 @@ C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\obj\Debug\Trai
 C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\obj\Debug\TrainTickts.csproj.CopyComplete
 C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\obj\Debug\TrainTickts.exe
 C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\obj\Debug\TrainTickts.pdb
+C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\bin\Debug\TrainTickts.exe.manifest
+C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\bin\Debug\TrainTickts.application
+C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\obj\Debug\TrainTickts.TrustInfo.xml
+C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\obj\Debug\TrainTickts.exe.manifest
+C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\obj\Debug\TrainTickts.application

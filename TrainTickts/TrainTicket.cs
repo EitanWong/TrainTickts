@@ -6,7 +6,8 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
-
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace TicketsBase
 {
@@ -46,28 +47,129 @@ namespace TicketsBase
         public string bottomid;
         public string jianpiao;
     }
-
+    
+    [Serializable]
+    public class IDinfo
+    {
+        [JsonProperty("name")]
+        public string name;
+        [JsonProperty("id")]
+        public string id;
+    }
 
     public static class TrainTicket
     {
         public static string LoudTicketsPath = AppDomain.CurrentDomain.BaseDirectory + "OrinTickets\\";
         public static string BaseTickfilePath = AppDomain.CurrentDomain.BaseDirectory + "BaseTickets\\";
         public static string savePath = AppDomain.CurrentDomain.BaseDirectory + "FinishTickets\\";
-
+        public static string SetPath = AppDomain.CurrentDomain.BaseDirectory + "Setting\\";
 
         public static readonly string Orin_LoudTicketsPath = AppDomain.CurrentDomain.BaseDirectory + "OrinTickets\\";
         public static readonly string Orin_BaseTickfilePath = AppDomain.CurrentDomain.BaseDirectory + "BaseTickets\\";
         public static readonly string Orin_savePath = AppDomain.CurrentDomain.BaseDirectory + "FinishTickets\\";
+        public static readonly string Orin_SetPath = AppDomain.CurrentDomain.BaseDirectory + "Setting\\";
 
-        public static Dictionary<string, string> People_ID = new Dictionary<string, string>();
+        public static List<IDinfo> People_ID = new List<IDinfo>();
         public static List<TrainTicketInfo> TrainTickets_Info=new List<TrainTicketInfo>();
         public static  Dictionary<string,Image> TrainTickets_Image = new Dictionary<string, Image>();
         public static List<Image> BaseTicketImage = new List<Image>();
-
         public static void InitPeople_ID()
         {
-            People_ID.Add("邹正芳", "362301998123457130");
 
+            UpdatePeopID();
+
+
+
+            //转换为指定格式的json
+        //    var json1 = Newtonsoft.Json.JsonConvert.SerializeObject(newData);
+            //写入到指定文件中
+         //   StreamWriter sw = new StreamWriter(@"D:\new.json");
+         //   sw.Write(json1);
+          //  sw.Flush();
+         //   sw.Close();
+        }
+        public static IDinfo GetPeopleID(string Name)
+        {
+            foreach (var item in People_ID)
+            {
+                if (item.name == Name)
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+        public static void RemovePeopleID(string Name)
+        {
+            People_ID.Remove(GetPeopleID(Name));
+        }
+        public static void SavePeopID()
+        {
+            string strReadFilePath = SetPath + "PeopleID.json";
+            //转换为指定格式的json
+            StreamWriter sw = new StreamWriter(strReadFilePath);
+            sw.Write("[\n");
+            foreach (var item in People_ID)
+            {
+               // MessageBox.Show(item.ToString());
+                JsonSerializerSettings settings = new JsonSerializerSettings();
+                settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                settings.Formatting = Formatting.Indented;
+
+                var json1 = Newtonsoft.Json.JsonConvert.SerializeObject(item, settings);
+               // MessageBox.Show(json1);
+                //写入到指定文件中
+                sw.Write(json1+",\n");
+            }
+            sw.Write("\n]");
+            sw.Flush();
+               sw.Close();
+        }
+        public static Action OnPeopIDUpdated;
+        public static void UpdatePeopID()
+        {
+            string strReadFilePath = SetPath + "PeopleID.json";
+            StreamReader sr=null;
+            //读取自定目录下的json文件
+            try
+            {
+                 sr = new StreamReader(strReadFilePath);
+            }
+            catch (Exception e)
+            {
+                StreamWriter sw = new StreamWriter(strReadFilePath);
+                sw.Flush();
+                sw.Close();
+                sr = new StreamReader(strReadFilePath);
+                // MessageBox.Show(e.Message,"加载身份证错误",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
+
+            string json = sr.ReadToEnd();
+            //json文件转为 对象  T 创建的类 字段名 应该和json文件中的保持一致     trye
+            List<IDinfo> data=null;
+            try
+            {
+                 data= JsonConvert.DeserializeObject<List<IDinfo>>(json);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("身份证配置文件解析错误,请自行修正\n"+e.Message,"读取身份证配置错误",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
+
+            if (data != null)
+            {
+                People_ID.Clear();
+                foreach (var item in data)
+                {
+                    People_ID.Add(item);
+                }
+            }
+ 
+            if (OnPeopIDUpdated != null)
+            {
+                OnPeopIDUpdated();
+            }
+            sr.Close();
         }
         public static string filePath;
         public static Baidu.Aip.Ocr.Ocr client;
@@ -161,9 +263,9 @@ namespace TicketsBase
             Tickinfo.ID = "362301998123457130";
             if (!String.IsNullOrWhiteSpace(Tickinfo.name))
             {
-                if (People_ID.ContainsKey(Tickinfo.name))
+                if (People_ID.Contains( GetPeopleID(Tickinfo.name)))
                 {
-                    Tickinfo.ID = People_ID[Tickinfo.name];
+                    Tickinfo.ID = GetPeopleID(Tickinfo.name).id;
                 }
                 else
                 {
@@ -200,9 +302,9 @@ namespace TicketsBase
             int n4 = ran.Next(1, 9);
             Tickinfo.train_hao = "0" + n4 + "B";
             Tickinfo.ID = "384951990042215674";
-            if (People_ID.ContainsKey(Tickinfo.name))
+            if (People_ID.Contains(GetPeopleID(Tickinfo.name)))
             {
-                Tickinfo.ID = People_ID[Tickinfo.name];
+                Tickinfo.ID = GetPeopleID(Tickinfo.name).id;
             }
             else
             {
