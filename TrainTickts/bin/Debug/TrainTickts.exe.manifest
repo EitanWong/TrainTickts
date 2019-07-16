@@ -78,14 +78,38 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TrainTickts.exe" size="630800">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="QRCoder.dll" size="117248">
+      <assemblyIdentity name="QRCoder" version="1.3.6.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>EDjzM9i/vHbFBRCn9Fapl+zNCi2vtCVPPxAg7/pnFRQ=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="System.Drawing.Common.dll" size="51344">
+      <assemblyIdentity name="System.Drawing.Common" version="4.0.0.0" publicKeyToken="CC7B13FFCD2DDD51" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>c46LVD6OrGQYmj+7D2fOBYqfAKWPK+W1SaFEP4OCRoE=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TrainTickts.exe" size="631824">
       <assemblyIdentity name="TrainTickts" version="1.0.1.2" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>SXmGOvLbMMKXY5enLkAXw2yNrmZdNfOnnRG9NNLyuhw=</dsig:DigestValue>
+        <dsig:DigestValue>66Yzp9UwIjMIaFRzuZ6U3XAXm1/qclfzCU2E7LEu/dI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

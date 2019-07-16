@@ -22,3 +22,5 @@ C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\obj\Debug\Trai
 C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\obj\Debug\TrainTickts.exe.manifest
 C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\obj\Debug\TrainTickts.application
 C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\obj\Debug\TrainTickts.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\bin\Debug\QRCoder.dll
+C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\bin\Debug\System.Drawing.Common.dll

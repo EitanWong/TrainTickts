@@ -11,6 +11,7 @@ using System.Drawing.Text;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using QRCoder;
 
 namespace TicketsBase
 {
@@ -18,8 +19,8 @@ namespace TicketsBase
     {
         public static int test = 100;
         public static Brush whiteBrush = new SolidBrush(Color.White);
-        public static Brush blackBrush = new SolidBrush(Color.Black);
-        public static Brush RedBrush = new SolidBrush(Color.Red);
+        public static Brush blackBrush = new SolidBrush(Color.FromArgb(235, 0, 0, 0));
+        public static Brush RedBrush = new SolidBrush(Color.FromArgb(180, 255, 0, 0));
         public static Brush Aalpha = new SolidBrush(Color.FromArgb(0, 0, 0, 0));
         public static Bitmap img_tailor(Bitmap src, Rectangle range)
         {
@@ -280,35 +281,35 @@ namespace TicketsBase
             var reduce = new Random().Next(0, 20);
 
             AddInfoToImage(tickInfo.ticket_num, g, 40, "arial.ttf", 50, 35 - reduce, RedBrush, FontStyle.Bold);
-            AddInfoToImage(tickInfo.jianpiao, g, 32, 680, 15, blackBrush);
-            AddInfoToImage(S_station, g, 40, 110, 80, blackBrush);
+            AddInfoToImage(tickInfo.jianpiao, g, 32, 680, 20, blackBrush);
+            AddInfoToImage(S_station, g, 41, 110, 80, blackBrush);
             if (Start_Stationpinyin != null)
             {
                 if (S_ISLongPinyin)
                 {
-                    AddInfoToImage(Start_Stationpinyin, g, 30, "标准仿宋体简.ttf", 110 + Start_Stationpinyin.Length + S_pinyinaddX, 130, blackBrush,FontStyle.Regular, 0.8f, 1);
+                    AddInfoToImage(Start_Stationpinyin, g, 30, "标准仿宋体简.ttf", 110 + Start_Stationpinyin.Length + S_pinyinaddX, 140, blackBrush,FontStyle.Regular, 0.8f, 1);
                 }
                 else
                 {
-                    AddInfoToImage(Start_Stationpinyin, g, 30, "标准仿宋体简.ttf", 110 + Start_Stationpinyin.Length + S_pinyinaddX, 130, blackBrush);
+                    AddInfoToImage(Start_Stationpinyin, g, 30, "标准仿宋体简.ttf", 110 + Start_Stationpinyin.Length + S_pinyinaddX, 140, blackBrush);
                 }
             }
-            AddInfoToImage("站", g, 30, 280, 85, blackBrush);
-            AddInfoToImage(D_station, g, 40, 600, 75, blackBrush);
+            AddInfoToImage("站", g, 30, 290, 90, blackBrush);
+            AddInfoToImage(D_station, g, 41, 600, 80, blackBrush);
             if (Des_Stationpinyin != null)
             {
                 if (D_ISLongPinyin)
                 {
-                    AddInfoToImage(Des_Stationpinyin, g, 30, "标准仿宋体简.ttf", 600 + Des_Stationpinyin.Length + D_pinyinaddX, 130, blackBrush,FontStyle.Regular, 0.8f, 1);
+                    AddInfoToImage(Des_Stationpinyin, g, 30, "标准仿宋体简.ttf", 600 + Des_Stationpinyin.Length + D_pinyinaddX, 140, blackBrush,FontStyle.Regular, 0.8f, 1);
                 }
                 else
                 {
-                    AddInfoToImage(Des_Stationpinyin, g, 30, "标准仿宋体简.ttf", 600 + Des_Stationpinyin.Length + D_pinyinaddX, 130, blackBrush);
+                    AddInfoToImage(Des_Stationpinyin, g, 30, "标准仿宋体简.ttf", 600 + Des_Stationpinyin.Length + D_pinyinaddX, 140, blackBrush);
                 }
             }
 
 
-            AddInfoToImage("站", g, 30, 770, 80, blackBrush);
+            AddInfoToImage("站", g, 30, 780, 90, blackBrush);
             ////////////////////////////////////////////////
 
             if (tickInfo.train_num.Length < 4)
@@ -361,6 +362,17 @@ namespace TicketsBase
                 Shou_X -= 38;
             }
             AddInfoToImage("售", g, 27f, 550f + Shou_X, 560f, blackBrush, FontStyle.Bold);
+
+            string strCode =string.Format("网络异常\n车票读取信息为{0}\n{1}\n{2}→{3}\n{4}年{5}月{6}日{7}\n{8}车{9}号\n{10}", tickInfo.ticket_num,tickInfo.train_num,S_station,D_station,year,moth,day,tickInfo.train_starttime,tickInfo.train_che,tickInfo.train_hao,tickInfo.name);
+           // string strCode = "https://www.12306.cn/index/";
+            QRCodeGenerator qrGenerator = new QRCoder.QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(strCode, QRCodeGenerator.ECCLevel.Q);
+            QRCode qrcode = new QRCode(qrCodeData);
+
+            // qrcode.GetGraphic 方法可参考最下发“补充说明”
+            Bitmap qrCodeImage = qrcode.GetGraphic(3, Color.FromArgb(160,0,0,0), Color.FromArgb(0, 0, 0, 0), null, 16, 6, false);
+
+            AddImageToImage(g,ResizeImage(qrCodeImage, qrCodeImage.Width-12, qrCodeImage.Height), new Point(735, 377));
             var FinalImage = byteToImage(Bitmap2Byte(bitmap));
             //"售"
             //bitmap.Save(TrainTicket.savePath + tickInfo.GetHashCode() + ".jpg", ImageFormat.Jpeg);
@@ -377,6 +389,23 @@ namespace TicketsBase
         }
 
 
+        public static Bitmap ResizeImage(Bitmap bmp, int newW, int newH)
+        {
+            try
+            {
+                Bitmap b = new Bitmap(newW, newH);
+                Graphics g = Graphics.FromImage(b);
+                // 插值算法的质量   
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.DrawImage(bmp, new Rectangle(0, 0, newW, newH), new Rectangle(0, 0, bmp.Width, bmp.Height), GraphicsUnit.Pixel);
+                g.Dispose();
+                return b;
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
         /// <summary>
         /// 添加信息到图片
@@ -609,7 +638,13 @@ namespace TicketsBase
 
         }
 
-
-
+        static void AddImageToImage(Graphics Image_graphics,Image image,Point point)
+        {
+            Image_graphics.DrawImage(image, point);
+        }
+        static void AddImageToImage(Graphics Image_graphics, Bitmap image, Point point)
+        {
+            Image_graphics.DrawImage(image, point);
+        }
     }
 }

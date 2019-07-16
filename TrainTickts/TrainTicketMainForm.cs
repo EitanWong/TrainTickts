@@ -392,8 +392,8 @@ namespace TrainTickets
             }
             MessageBox.Show("正在导入并识别车票中", "车票识别系统", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            test_TrainTickets();
-           // AI_LoadAllTrainTickets();
+            //test_TrainTickets();
+            AI_LoadAllTrainTickets();
         }
 
         private void ToolStripMenuItem_OutputAll_Click(object sender, EventArgs e)
