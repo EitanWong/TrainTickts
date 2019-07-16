@@ -48,7 +48,7 @@ namespace TrainTickets
             Control.CheckForIllegalCrossThreadCalls = false;
             _S.Opacity = 0;
             _S.timer1.Enabled = true;
-            _S.Text = String.Format("AI智能火车票识别修改系统-版本:{0}", Application.ProductVersion);
+            _S.Text = String.Format("AI智能火车票[识别/修改]系统-版本:{0}", Application.ProductVersion);
             OpenWidth = Width;
             Width = 350;
 

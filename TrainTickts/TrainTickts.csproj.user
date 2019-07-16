@@ -13,4 +13,7 @@
   <PropertyGroup>
     <EnableSecurityDebugging>false</EnableSecurityDebugging>
   </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\bin\Debug\OrinTickets\;C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\bin\Debug\Font\;C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\bin\Debug\BaseTickets\;C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\bin\Debug\Setting\;C:\Users\Administrator\Desktop\TrainTickt\TrainTickts\TrainTickts\bin\Debug\FinishTickets\</ReferencePath>
+  </PropertyGroup>
 </Project>

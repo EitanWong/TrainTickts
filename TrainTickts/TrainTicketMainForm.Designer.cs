@@ -32,6 +32,7 @@ namespace TrainTickets
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrainTicketMainForm));
             this.TicketPictureBox = new System.Windows.Forms.PictureBox();
             this.TrainTicketsInfoView = new System.Windows.Forms.ListBox();
             this.text_ticket_num = new System.Windows.Forms.TextBox();
@@ -341,7 +342,7 @@ namespace TrainTickets
             this.导出ToolStripMenuItem1,
             this.删除ToolStripMenuItem1});
             this.contextMenuStrip.Name = "contextMenuStrip1";
-            this.contextMenuStrip.Size = new System.Drawing.Size(211, 128);
+            this.contextMenuStrip.Size = new System.Drawing.Size(154, 100);
             // 
             // 新建火车票ToolStripMenuItem
             // 
@@ -353,14 +354,14 @@ namespace TrainTickets
             // 导入ToolStripMenuItem1
             // 
             this.导入ToolStripMenuItem1.Name = "导入ToolStripMenuItem1";
-            this.导入ToolStripMenuItem1.Size = new System.Drawing.Size(210, 24);
+            this.导入ToolStripMenuItem1.Size = new System.Drawing.Size(153, 24);
             this.导入ToolStripMenuItem1.Text = "导入火车票";
             this.导入ToolStripMenuItem1.Click += new System.EventHandler(this.导入ToolStripMenuItem1_Click);
             // 
             // 导出ToolStripMenuItem1
             // 
             this.导出ToolStripMenuItem1.Name = "导出ToolStripMenuItem1";
-            this.导出ToolStripMenuItem1.Size = new System.Drawing.Size(210, 24);
+            this.导出ToolStripMenuItem1.Size = new System.Drawing.Size(153, 24);
             this.导出ToolStripMenuItem1.Text = "导出火车票";
             this.导出ToolStripMenuItem1.Click += new System.EventHandler(this.导出ToolStripMenuItem1_Click);
             // 
@@ -400,6 +401,7 @@ namespace TrainTickets
             this.Controls.Add(this.TrainTicketsInfoView);
             this.Controls.Add(this.menuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.Name = "TrainTicketMainForm";

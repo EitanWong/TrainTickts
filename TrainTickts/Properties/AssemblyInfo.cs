@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("AI智能火车票识别修改系统")]
+[assembly: AssemblyTitle("AI智能火车票[识别/修改]系统")]
 [assembly: AssemblyDescription("此系统仅供个人学习、研究  禁止非法传播或用于商业用途 若因不正当使用造成的任何后果均与作者无关！")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AI智能火车票识别修改系统")]
+[assembly: AssemblyProduct("AI智能火车票[识别/修改]系统")]
 [assembly: AssemblyCopyright("Copyright © LONE 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -33,7 +33,7 @@ using System.Runtime.InteropServices;
 //可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值
 //通过使用 "*"，如下所示:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.1.1")]
-[assembly: AssemblyFileVersion("1.0.1.1")]
+[assembly: AssemblyVersion("1.0.1.2")]
+[assembly: AssemblyFileVersion("1.0.1.2")]
 [assembly: NeutralResourcesLanguage("")]
 

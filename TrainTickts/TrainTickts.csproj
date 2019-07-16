@@ -74,6 +74,9 @@
   <PropertyGroup>
     <SignManifests>true</SignManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AipSdk, Version=3.6.13.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Baidu.AI.3.6.13\lib\net35\AipSdk.dll</HintPath>
@@ -168,6 +171,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\WhatsYourProblem.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\about.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="favicon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
